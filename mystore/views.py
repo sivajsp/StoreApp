@@ -12,19 +12,22 @@ def category(request,categ):
     context = {'prod':x}
     return render(request,'product.html',context)
 def prod_detail(request,name):
-    if(request.method == "POST"):
-         y = addingtocart(request.POST)
-         if(y.is_valid()):
-             try:
-                 z = cartdb.objects.get(product=name)
-                 z.count = z.count + y.count
-                 z.save()
-             except ObjectDoesNotExist:
-                 z = cartdb(product=name,count=y.count)
-
     x = storedb.objects.get(product=name)
-    cform = addingtocart()
-    context = {'productd':x,'form':cform}
+    context = {'productd':x}
+    return render(request,'product-detail.html',context)
+def prod_detail1(request,name,count1):
+    try:
+        z = cartdb.objects.get(product=name)
+        z.count += count1
+        z.save()
+    except ObjectDoesNotExist:
+        y = cartdb(product=name,count = count1)
+        y.save()
+    print("hi")
+    x = storedb.objects.get(product=name)
+    context = {'productd':x}
     return render(request,'product-detail.html',context)
 def cart(request):
-    return render(request,'cart.html')
+    x = cartdb.objects.all()
+    context = {'cart':x}
+    return render(request,'cart.html',context)

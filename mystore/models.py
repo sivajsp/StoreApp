@@ -5,3 +5,6 @@ class storedb(models.Model):
     Category = models.CharField(max_length=50)
     price = models.IntegerField()
     images = models.ImageField(upload_to="files")
+class cartdb(models.Model):
+    product = models.CharField(max_length=50,primary_key=True)
+    count = models.IntegerField()
